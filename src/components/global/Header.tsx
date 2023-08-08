@@ -27,7 +27,9 @@ const Header = () => {
     <div className="w-full sticky bg-blue-500 shadow-md">
       <div className="flex justify-between items-center px-4 py-3 md:px-8 transition">
         <Link to='/' className="text-white text-lg md:text-3xl sm:text-xl font-semibold font-logo">Rich Blog</Link>
-        <Search/>
+        <div className="">
+          <Search/>
+        </div>
         <div className="md:hidden">
           <button onClick={toggleMenu}>
             {isMenuOpen ? (

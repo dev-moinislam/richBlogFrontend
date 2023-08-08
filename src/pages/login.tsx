@@ -1,9 +1,11 @@
+import LoginPassword from "../components/auth/LoginPassword"
 
-
-const Login = () => {
+const login = () => {
   return (
-    <div>Please login Quickly</div>
+    <>
+    <LoginPassword/>
+    </>
   )
 }
 
-export default Login
+export default login
