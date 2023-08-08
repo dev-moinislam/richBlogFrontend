@@ -6,11 +6,10 @@ export default {
   ],
   theme: {
     extend: {
-      transitionDuration: {
-        '3s': '3s',
-      },
-      transitionTimingFunction: {
-        'ease-in': 'ease-in',
+      fontFamily: {
+        'logo': ['Dancing Script', 'cursive'],
+        'text': ['Playfair Display',' serif'],
+        'text2': ['Raleway', 'sans-serif'],
       },
     },
   },
