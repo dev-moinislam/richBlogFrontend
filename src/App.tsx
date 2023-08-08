@@ -1,28 +1,22 @@
 import './App.css'
-import { RouterProvider,createBrowserRouter } from 'react-router-dom'
-import PageRender from './common/PageRender';
+import { Outlet } from 'react-router-dom'
+import Header from './components/global/Header';
+import Footer from './components/global/Footer';
+import { Provider } from 'react-redux'
+import { store } from './redux/store';
+
 
 
 
 const App = () => {
 
-
-  const routes = [
-    {
-      path: "/",
-      element:<PageRender/>,
-    },
-    {
-      path: "/:page",
-      element:<PageRender/>,
-    },
-     {
-      path: "/:page/:slug",
-      element: <PageRender/>,
-    }
-  ];
-
-  return <RouterProvider router={createBrowserRouter(routes)} />
+  return (
+      <Provider store={store}>
+        <Header/>
+          <Outlet/>
+        <Footer/>
+      </Provider>
+  )
 };
 
 export default App

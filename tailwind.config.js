@@ -5,7 +5,14 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      transitionDuration: {
+        '3s': '3s',
+      },
+      transitionTimingFunction: {
+        'ease-in': 'ease-in',
+      },
+    },
   },
   plugins: [require("daisyui")],
 }
