@@ -1,14 +1,20 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {FaEyeSlash,FaEye} from 'react-icons/fa'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { InputChange,FormSubmit } from '../../utils/interface';
+import { useLoginUserMutation } from '../../utils/fetchData';
+import { toast } from 'react-toastify';
 
  const LoginPassword = () => {
     const initialState={account:'',password:''}
     const [userLogin,setUserLogin]=useState(initialState)
     const {account,password}=userLogin
+
+    const navigate=useNavigate()
     
     const [showPassword, setShowPassword] = useState(false);
+
+    const [loginUser,{data,isSuccess,isError,error}]=useLoginUserMutation()
   
     const togglePasswordVisibility = () => {
       setShowPassword(!showPassword);
@@ -19,14 +25,26 @@ import { InputChange,FormSubmit } from '../../utils/interface';
         setUserLogin({...userLogin,[name]:value})
     }
 
-    const handleSubmit=(e:FormSubmit)=>{
+    const handleSubmit=async (e:FormSubmit)=>{
         e.preventDefault()
+
+        if(account && password){
+          await loginUser({account,password})
+        }else{
+          toast.error("Please Fill all the Field")
+        }
     }
+
+
+    useEffect(()=>{
+      if(isSuccess){
+        toast.success("User Successfully Login")
+        navigate('/')
+      }
+    },[isSuccess])
   
     return (
-      <div className="flex justify-center items-center h-screen bg-gray-100">
-        <div className="bg-white p-8 rounded shadow-md w-80 sm:w-96 ">
-          <h2 className="text-2xl font-semibold mb-4">Login</h2>
+
           <form onSubmit={handleSubmit}>
             {/* ------------------------------ input account ----------------------------- */}
             <div className="mb-4">
@@ -67,35 +85,8 @@ import { InputChange,FormSubmit } from '../../utils/interface';
                 Login
               </button>
             </div>
-            {/* --------------------------- other signin option -------------------------- */}
-            <div className="border-t border-gray-300 pt-4 text-center">
-              <p className="text-sm">Or sign in with</p>
-              <div className="mt-2">
-                <button
-                  type="button"
-                  className="inline-block mx-1 text-blue-500 hover:text-blue-600"
-                >
-                  Password
-                </button>
-                <span> | </span>
-                <button
-                  type="button"
-                  className="inline-block mx-1 text-blue-500 hover:text-blue-600"
-                >
-                  SMS
-                </button>
-              </div>
-            </div>
-            {/* ------------------------- navigate register page ------------------------- */}
-            <div className="mt-4">
-              <p className="text-sm">
-                Don't have an account?{' '}
-                <Link to='/register' className="text-blue-500">Register here</Link>
-              </p>
-            </div>
           </form>
-        </div>
-      </div>
+
     );
   };
 
