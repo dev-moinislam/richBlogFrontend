@@ -1,47 +1,60 @@
-import {useEffect, useState} from 'react'
+import {useState,useEffect} from 'react'
 import {FaEyeSlash,FaEye} from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom';
 import { InputChange,FormSubmit } from '../../utils/interface';
-import { useLoginUserMutation } from '../../utils/fetchData';
-import { toast } from 'react-toastify';
+import { useLoginUserMutation } from '../../redux/api/authApi';
+import {toast} from 'react-toastify'
+import { useAppDispatch } from '../../redux/hooks';
+import { setUser } from '../../redux/state/authSlice';
+import LoginLoader from '../global/LoginLoder';
+
 
  const LoginPassword = () => {
+    
+    const [loginUser,{data,isSuccess,isError,isLoading,error}]=useLoginUserMutation()  //extract Login user from authApi
+
+    /* ---------------------------- form input state ---------------------------- */
     const initialState={account:'',password:''}
     const [userLogin,setUserLogin]=useState(initialState)
     const {account,password}=userLogin
-
-    const navigate=useNavigate()
-    
     const [showPassword, setShowPassword] = useState(false);
 
-    const [loginUser,{data,isSuccess,isError,error}]=useLoginUserMutation()
+    const navigate=useNavigate()
+/* --------------------------------import dispatch -------------------------------- */
+    const dispatch=useAppDispatch()
   
     const togglePasswordVisibility = () => {
       setShowPassword(!showPassword);
     };
-
+/* ------------------------------- handleInput ------------------------------ */
     const handleInputChange=(e:InputChange)=>{
         const {name,value}=e.target
         setUserLogin({...userLogin,[name]:value})
     }
-
+/* ------------------------------ handle submit ----------------------------- */
     const handleSubmit=async (e:FormSubmit)=>{
         e.preventDefault()
 
         if(account && password){
-          await loginUser({account,password})
+          await loginUser({...userLogin})       
         }else{
-          toast.error("Please Fill all the Field")
-        }
+          toast.error('Please fill up all field')
+        }        
     }
-
-
+    
+    /* -------------------------------- useeffect and dispatch ------------------------------- */
     useEffect(()=>{
       if(isSuccess){
-        toast.success("User Successfully Login")
+        toast.success('User successfully Login')
+        dispatch(setUser({name:data.user.name,token:data.access_token}))
         navigate('/')
       }
-    },[isSuccess])
+      
+      if(isError){
+        toast.error(`${(error as any).data.msg}`)
+      }
+    },[isSuccess,isError])
+
   
     return (
 
@@ -80,15 +93,18 @@ import { toast } from 'react-toastify';
               <button
                 type="submit"
                 className="text-sm text-white bg-blue-500 px-4 py-2 rounded hover:bg-blue-600 focus:outline-none"
-                disabled={(account && password) ? false : true}
+                
               >
-                Login
+                {
+                  isLoading ? <LoginLoader/> : 'Login'
+                }
               </button>
             </div>
           </form>
 
     );
   };
+  // disabled={(account && password) ? false : true}
 
  
  export default LoginPassword

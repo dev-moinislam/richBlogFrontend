@@ -1,11 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
-import {loginApi} from '../utils/fetchData'
-import { setupListeners } from '@reduxjs/toolkit/dist/query'
+import authReducer from '../redux/state/authSlice'
+import { authApi } from './api/authApi'
+import { setupListeners } from '@reduxjs/toolkit/query'
+
 export const store = configureStore({
   reducer: {
-    [loginApi.reducerPath]:loginApi.reducer,
+    auth:authReducer,
+    [authApi.reducerPath]: authApi.reducer,
   },
-  middleware:(getDefaultMiddleware)=> getDefaultMiddleware().concat(loginApi.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(authApi.middleware),
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

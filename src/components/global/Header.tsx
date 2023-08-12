@@ -1,7 +1,10 @@
-import  { useState } from 'react';
+import  { useState,useEffect } from 'react';
 import { RiMenuLine, RiCloseLine } from 'react-icons/ri';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Search from './Search';
+import {  useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { logout, selectAuth, setUser } from '../../redux/state/authSlice';
+import {toast} from 'react-toastify'
 
 const Header = () => {
   const BfLogRegLink=[
@@ -23,6 +26,28 @@ const Header = () => {
     setIsOpen(!isOpen);
   };
 
+  /* ------------------------------ set User name state ----------------------------- */
+  const {name}=useAppSelector(selectAuth)
+
+  /* --------------------------- import use navigate -------------------------- */
+  const navigate=useNavigate()
+  const dispatch=useAppDispatch()
+
+
+  const user=JSON.parse(localStorage.getItem("user") || '{}')
+  
+  useEffect(()=>{
+    dispatch(setUser({...user}))
+  },[])
+
+  const handleLogout=()=>{
+    dispatch(logout())
+    toast.success('successfully logout')
+    navigate('/login')
+    setIsOpen(!isOpen);
+
+  }
+
   return (
     <div className="w-full sticky bg-blue-500 shadow-md">
       <div className="flex justify-between items-center px-4 py-3 md:px-8 transition">
@@ -43,20 +68,24 @@ const Header = () => {
 
           {/* Add navigation items here */}
           {
-            BfLogRegLink.map((item,index)=>(
-              <Link key={index} to={item.path} className="text-white hover:text-blue-300 px-4 py-2 rounded-md">
-            {item.label}
-          </Link>
-            ))
+            !name && (
+              BfLogRegLink.map((item,index)=>(
+                <Link key={index} to={item.path} className="text-white hover:text-blue-300 px-4 py-2 rounded-md">
+                  {item.label}
+                </Link>
+              ))
+            )
           }
 
           {/* -------------------------------- Dropdown start-------------------------------- */}
-            <div className="relative inline-block">
+            {
+              name && (
+                <div className="relative inline-block">
               <button
                 className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none"
                 onClick={toggleDropdown}
               >
-                Username
+                {name}
               </button>
 
               {isOpen && (
@@ -66,6 +95,8 @@ const Header = () => {
                 </div>
               )}
             </div>
+              )
+            }
           { /* ----------------------------- Dropdown finish ---------------------------- */}
         </div>
       </div>
@@ -88,21 +119,25 @@ const Header = () => {
               }
 
               {/* ------------------------------ dropdown item small device start----------------------------- */}
-                <div className="relative inline-block">
-                  <button
-                    className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none"
-                    onClick={toggleDropdown}
-                  >
-                    Username
-                  </button>
+                {
+                  name && (
+                    <div className="relative inline-block">
+                    <button
+                      className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none"
+                      onClick={toggleDropdown}
+                    >
+                      {name}
+                    </button>
 
-                  {isOpen && (
-                    <div className="absolute top-10 right-3 mt-2 bg-white shadow-lg w-[200]">
-                      <Link to='/profile' onClick={toggleMenu} className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Profile</Link>
-                      <Link to='' onClick={toggleMenu} className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Logout</Link>
-                    </div>
-                  )}
-              </div>
+                    {isOpen && (
+                      <div className="absolute top-10 right-3 mt-2 bg-white shadow-lg w-[200]">
+                        <Link to='/profile' onClick={toggleMenu} className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Profile</Link>
+                        <Link to='' onClick={handleLogout} className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Logout</Link>
+                      </div>
+                    )}
+                  </div>
+                )
+                }
               {/* ------------------------------ dropdown item small device end----------------------------- */}
             </div>
           </div>

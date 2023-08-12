@@ -14,7 +14,7 @@ const PreLoder = () => {
     <div className="sweet-loading">
       <ClipLoader
         cssOverride={override}
-        size={150}
+        size={160}
         aria-label="Loading Spinner"
         data-testid="loader"
       />

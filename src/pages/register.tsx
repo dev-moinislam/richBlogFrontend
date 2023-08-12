@@ -1,26 +1,63 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormSubmit, InputChange } from '../utils/interface';
 import { Link } from 'react-router-dom';
+import { useRegisterUserMutation } from '../redux/api/authApi';
+// import { useAppDispatch } from '../redux/hooks';
+import {toast} from 'react-toastify'
+import LoginLoader from '../components/global/LoginLoder';
 
 const Registration = () => {
-  const initialState={username:'',account:'',password:'',cf_password:''}
+    const initialState={username:'',account:'',password:'',cf_password:''}
     const [userRegistration,setUserRegistration]=useState(initialState)
     const {username,account,password,cf_password}=userRegistration
+    // const dispatch=useAppDispatch()
 
-  const handleChange = (e:InputChange) => {
+    /* -------------------- registerUser extract for dispatch ------------------- */
+    const [registerUser,{data,isLoading,isError,isSuccess,error}]=useRegisterUserMutation()
+   
+   
+   /* --------------------------- handle input change -------------------------- */
+    const handleChange = (e:InputChange) => {
     const { name, value } = e.target;
     setUserRegistration({...userRegistration,[name]:value})
   };
 
-  const handleSubmit = (e:FormSubmit) => {
+/* ------------------------------ Handle submit ----------------------------- */
+  const handleSubmit =async (e:FormSubmit) => {
     e.preventDefault();
-    // Handle registration logic here, e.g., API calls
-    console.log('Form data submitted:', userRegistration);
+  
+    if(username && account && password && cf_password){
+      if(password !== cf_password){
+        toast.error('password does not match')
+        
+        
+      }else{
+        await registerUser({username,account,password})
+
+      }    
+    }else{
+      toast.error('Fill up all field')
+    }
+
   };
+
+  /* ----------------- useEffect for handle error and success ----------------- */
+  useEffect(()=>{
+    if(isSuccess){
+      toast.success('Check you email to verify your account')
+      setUserRegistration(initialState)
+    } 
+    
+    if(isError){
+      toast.error(`${(error as any).data.msg}`)
+    }
+    
+
+  },[isSuccess,isError])
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded shadow-md w-full w-96 sm:w-96">
+      <div className="bg-white p-8 rounded shadow-md w-96 sm:w-96 ">
         <h2 className="text-2xl font-semibold mb-4">Register an Account</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -67,18 +104,13 @@ const Registration = () => {
               placeholder="Re-enter your password"
             />
           </div>
-          <div className="mb-4 text-red-500">
-            {
-              (password !== cf_password) && (
-                'Password not match!'
-              )
-            }
-          </div>
           <button
             type="submit"
             className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none"
           >
-            Register
+            {
+              isLoading ? <LoginLoader/> : "Register"
+            }
           </button>
         </form>
         <div className="mt-4 text-center">

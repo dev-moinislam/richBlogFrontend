@@ -9,7 +9,7 @@ import Home from '../pages'
 
 const generatePage = (name: string) => {
   /* ------------------- dynamic import is asyncronous call ------------------- */
-  const LazyComponent = lazy(() => import(`../pages/${name}.tsx`).catch(() => ({ default: NotFound })));
+  const LazyComponent = lazy(() => import(`../pages/${name}`).catch(() => ({ default: NotFound })));
 
   return (
     <Suspense fallback={<PreLoder/>}>
@@ -22,10 +22,11 @@ const generatePage = (name: string) => {
 
 const PageRender = () => {
     const {page,slug}:IParams=useParams()
+    console.log(page,slug)
     
     let name="";
     if(page){
-      name=slug ? `${page}/[slug]` : `${page}`
+      name= slug ? `${page}/[slug]` : `${page}`
     }
   
    return generatePage(name)
