@@ -9,7 +9,7 @@ import Home from '../pages'
 
 const generatePage = (name: string) => {
   /* ------------------- dynamic import is asyncronous call ------------------- */
-  const LazyComponent = lazy(() => import(`../pages/${name}`).catch(() => ({ default: NotFound })));
+  const LazyComponent = lazy(() => import(/* @vite-ignore */`../pages/${name}`).catch(() => ({ default: NotFound })));
 
   return (
     <Suspense fallback={<PreLoder/>}>

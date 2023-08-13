@@ -33,9 +33,18 @@ export const authApi = createApi({
         }
     }
 }),
+getRefreshToken:builder.query({
+    query:(headers:{Authorization:string})=>{
+        return {
+            url:'/api/refresh_token',
+            method:'get',
+            headers
+        }
+    }
+}),
   }),
   
 })
 
 
-export const { useLoginUserMutation ,useRegisterUserMutation, useVerifyUserMutation} = authApi
+export const { useLoginUserMutation ,useRegisterUserMutation, useVerifyUserMutation,useGetRefreshTokenQuery} = authApi

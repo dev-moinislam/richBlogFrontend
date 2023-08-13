@@ -7,7 +7,7 @@ import LoginLoader from "../../components/global/LoginLoder";
 
 const ActivationPage = () => {
     const {slug}:IParams=useParams()
-    const [verifyUser,{data,isLoading,isSuccess,isError,error}]=useVerifyUserMutation()
+    const [verifyUser,{isLoading,isSuccess,isError,error}]=useVerifyUserMutation()
 
     /* ------------------------- handle account activate ------------------------ */
     const handleSubmit =async (e:FormSubmit) => {

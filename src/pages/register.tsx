@@ -13,7 +13,7 @@ const Registration = () => {
     // const dispatch=useAppDispatch()
 
     /* -------------------- registerUser extract for dispatch ------------------- */
-    const [registerUser,{data,isLoading,isError,isSuccess,error}]=useRegisterUserMutation()
+    const [registerUser,{isLoading,isError,isSuccess,error}]=useRegisterUserMutation()
    
    
    /* --------------------------- handle input change -------------------------- */

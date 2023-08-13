@@ -3,12 +3,12 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store';
 
 export interface AuthState {
-  name:string | null;
+  username:string | null;
   token:string | null
 }
 
 const initialState: AuthState = {
-  name:null,
+  username:null,
   token: null
 }
 
@@ -16,28 +16,28 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<{name:string,token:string}>) => {
+    setUser: (state, action: PayloadAction<{username:string,token:string}>) => {
      
       localStorage.setItem(
         "user",
         JSON.stringify({
-          name:action.payload.name,
+          username:action.payload.username,
           token:action.payload.token
         })
       )
 
-      state.name=action.payload.name
+      state.username=action.payload.username
       state.token=action.payload.token
     },
-    logout:(state)=>{
-      localStorage.clear()
-      state.name=null,
-      state.token=null
-    }
+    // logout:(state)=>{
+    //   localStorage.clear()
+    //   state.username=null,
+    //   state.token=null
+    // }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const {  setUser ,logout} = authSlice.actions
+export const {  setUser } = authSlice.actions
 export const selectAuth = (state: RootState) => state.auth
 export default authSlice.reducer

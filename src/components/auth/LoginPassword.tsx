@@ -46,7 +46,7 @@ import LoginLoader from '../global/LoginLoder';
     useEffect(()=>{
       if(isSuccess){
         toast.success('User successfully Login')
-        dispatch(setUser({name:data.user.name,token:data.access_token}))
+        dispatch(setUser({username:data.user.username,token:data.access_token}))
         navigate('/')
       }
       

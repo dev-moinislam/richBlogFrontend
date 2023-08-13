@@ -1,10 +1,10 @@
 import  { useState,useEffect } from 'react';
 import { RiMenuLine, RiCloseLine } from 'react-icons/ri';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Search from './Search';
 import {  useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { logout, selectAuth, setUser } from '../../redux/state/authSlice';
-import {toast} from 'react-toastify'
+import { selectAuth, setUser } from '../../redux/state/authSlice';
+// import {toast} from 'react-toastify'
 
 const Header = () => {
   const BfLogRegLink=[
@@ -27,26 +27,19 @@ const Header = () => {
   };
 
   /* ------------------------------ set User name state ----------------------------- */
-  const {name}=useAppSelector(selectAuth)
+  const {username}=useAppSelector(selectAuth)
 
   /* --------------------------- import use navigate -------------------------- */
-  const navigate=useNavigate()
+  // const navigate=useNavigate()
   const dispatch=useAppDispatch()
 
 
   const user=JSON.parse(localStorage.getItem("user") || '{}')
   
   useEffect(()=>{
-    dispatch(setUser({...user}))
+      dispatch(setUser({...user}))
   },[])
 
-  const handleLogout=()=>{
-    dispatch(logout())
-    toast.success('successfully logout')
-    navigate('/login')
-    setIsOpen(!isOpen);
-
-  }
 
   return (
     <div className="w-full sticky bg-blue-500 shadow-md">
@@ -68,7 +61,7 @@ const Header = () => {
 
           {/* Add navigation items here */}
           {
-            !name && (
+            !username && (
               BfLogRegLink.map((item,index)=>(
                 <Link key={index} to={item.path} className="text-white hover:text-blue-300 px-4 py-2 rounded-md">
                   {item.label}
@@ -79,13 +72,13 @@ const Header = () => {
 
           {/* -------------------------------- Dropdown start-------------------------------- */}
             {
-              name && (
+              username && (
                 <div className="relative inline-block">
               <button
                 className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none"
                 onClick={toggleDropdown}
               >
-                {name}
+                {username}
               </button>
 
               {isOpen && (
@@ -111,28 +104,30 @@ const Header = () => {
               {/* Add sidebar links here */}
               {/* -------------------------------- menu Item ------------------------------- */}
               {
-                BfLogRegLink.map((item,index)=>(
-                  <Link onClick={toggleMenu} key={index} to={item.path} className="text-white hover:text-blue-300 px-4 py-2 rounded-md">
-                    {item.label}
-                  </Link>
-                ))
+                !username && (
+                  BfLogRegLink.map((item,index)=>(
+                    <Link onClick={toggleMenu} key={index} to={item.path} className="text-white hover:text-blue-300 px-4 py-2 rounded-md">
+                      {item.label}
+                    </Link>
+                  ))
+                )
               }
 
               {/* ------------------------------ dropdown item small device start----------------------------- */}
                 {
-                  name && (
+                  username && (
                     <div className="relative inline-block">
                     <button
                       className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none"
                       onClick={toggleDropdown}
                     >
-                      {name}
+                      {username}
                     </button>
 
                     {isOpen && (
                       <div className="absolute top-10 right-3 mt-2 bg-white shadow-lg w-[200]">
                         <Link to='/profile' onClick={toggleMenu} className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Profile</Link>
-                        <Link to='' onClick={handleLogout} className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Logout</Link>
+                        <button className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Logout</button>
                       </div>
                     )}
                   </div>
