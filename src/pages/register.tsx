@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { FormSubmit, InputChange } from '../utils/interface';
 import { Link } from 'react-router-dom';
 import { useRegisterUserMutation } from '../redux/api/authApi';
-// import { useAppDispatch } from '../redux/hooks';
 import {toast} from 'react-toastify'
 import LoginLoader from '../components/global/LoginLoder';
 
@@ -10,7 +9,6 @@ const Registration = () => {
     const initialState={username:'',account:'',password:'',cf_password:''}
     const [userRegistration,setUserRegistration]=useState(initialState)
     const {username,account,password,cf_password}=userRegistration
-    // const dispatch=useAppDispatch()
 
     /* -------------------- registerUser extract for dispatch ------------------- */
     const [registerUser,{isLoading,isError,isSuccess,error}]=useRegisterUserMutation()

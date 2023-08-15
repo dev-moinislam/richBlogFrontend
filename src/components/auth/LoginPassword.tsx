@@ -2,7 +2,7 @@ import {useState,useEffect} from 'react'
 import {FaEyeSlash,FaEye} from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom';
 import { InputChange,FormSubmit } from '../../utils/interface';
-import { useLoginUserMutation } from '../../redux/api/authApi';
+import { useLoginUserMutation} from '../../redux/api/authApi';
 import {toast} from 'react-toastify'
 import { useAppDispatch } from '../../redux/hooks';
 import { setUser } from '../../redux/state/authSlice';
@@ -22,6 +22,7 @@ import LoginLoader from '../global/LoginLoder';
     const navigate=useNavigate()
 /* --------------------------------import dispatch -------------------------------- */
     const dispatch=useAppDispatch()
+
   
     const togglePasswordVisibility = () => {
       setShowPassword(!showPassword);
@@ -34,7 +35,7 @@ import LoginLoader from '../global/LoginLoder';
 /* ------------------------------ handle submit ----------------------------- */
     const handleSubmit=async (e:FormSubmit)=>{
         e.preventDefault()
-
+     
         if(account && password){
           await loginUser({...userLogin})       
         }else{
@@ -46,7 +47,7 @@ import LoginLoader from '../global/LoginLoder';
     useEffect(()=>{
       if(isSuccess){
         toast.success('User successfully Login')
-        dispatch(setUser({username:data.user.username,token:data.access_token}))
+        dispatch(setUser({account:data.user.account,avatar:data.user.avatar,role:data.user.role,type:data.user.type,username:data.user.username,access_token:data.access_token}))
         navigate('/')
       }
       
@@ -104,7 +105,6 @@ import LoginLoader from '../global/LoginLoder';
 
     );
   };
-  // disabled={(account && password) ? false : true}
 
  
  export default LoginPassword

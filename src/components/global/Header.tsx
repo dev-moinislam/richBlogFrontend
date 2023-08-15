@@ -1,10 +1,11 @@
 import  { useState,useEffect } from 'react';
 import { RiMenuLine, RiCloseLine } from 'react-icons/ri';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Search from './Search';
 import {  useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { selectAuth, setUser } from '../../redux/state/authSlice';
-// import {toast} from 'react-toastify'
+import { logOut, selectAuth, setUser } from '../../redux/state/authSlice';
+import { toast } from 'react-toastify';
+
 
 const Header = () => {
   const BfLogRegLink=[
@@ -12,8 +13,17 @@ const Header = () => {
     {label:'Register',path:'/register'},
   ]
 
+
+
   /* --------------------------- This handle sidebar -------------------------- */
   const [isMenuOpen, setMenuOpen] = useState(false);
+
+    /* --------------------------- import use navigate -------------------------- */
+  const navigate=useNavigate()
+  const dispatch=useAppDispatch()
+
+
+  const userInfo=JSON.parse(localStorage.getItem("userInfo") || '{}')
 
   const toggleMenu = () => {
     setMenuOpen(!isMenuOpen);
@@ -26,18 +36,24 @@ const Header = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleLogout=()=>{
+    setIsOpen(!isOpen);
+    setMenuOpen(!isMenuOpen);
+    dispatch(logOut())
+    toast.success("Successfully Logout")
+    navigate('/login')
+
+  }
+
   /* ------------------------------ set User name state ----------------------------- */
-  const {username}=useAppSelector(selectAuth)
-
-  /* --------------------------- import use navigate -------------------------- */
-  // const navigate=useNavigate()
-  const dispatch=useAppDispatch()
+  // {username,avatar,account,type,role}
+  const {username,avatar}=useAppSelector(selectAuth)
 
 
-  const user=JSON.parse(localStorage.getItem("user") || '{}')
+
   
   useEffect(()=>{
-      dispatch(setUser({...user}))
+      dispatch(setUser({...userInfo}))
   },[])
 
 
@@ -74,17 +90,22 @@ const Header = () => {
             {
               username && (
                 <div className="relative inline-block">
-              <button
-                className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none"
-                onClick={toggleDropdown}
-              >
-                {username}
-              </button>
+                  <button
+                    className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none"
+                    onClick={toggleDropdown}
+                  >
+                    {
+                      avatar ? (
+                        <img className='md:w-7 md:h-7 sm:w-5 sm:h-5 rounded-full' src={avatar} alt="" />
+
+                      ) : username 
+                    }
+                  </button>
 
               {isOpen && (
-                <div className="absolute top-10 right-3 mt-2 bg-white shadow-lg w-[200]">
+                <div className="absolute top-15 right-0 mt-2 bg-white shadow-lg w-[200]">
                   <Link to='/profile' onClick={toggleDropdown} className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Profile</Link>
-                  <Link to='' onClick={toggleDropdown} className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Logout</Link>
+                  <button onClick={handleLogout} className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Logout</button>
                 </div>
               )}
             </div>
@@ -116,18 +137,27 @@ const Header = () => {
               {/* ------------------------------ dropdown item small device start----------------------------- */}
                 {
                   username && (
-                    <div className="relative inline-block">
+                    <div className="relative flex justify-center items-center h-screen flex-col">
                     <button
                       className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none"
                       onClick={toggleDropdown}
                     >
-                      {username}
+                      {
+                        avatar && (
+                          <img className='w-10 h-10 rounded-full' src={avatar} alt="" />
+
+                        ) 
+                      }
                     </button>
 
+                      <div className=" top-15  mt-0 bg-white shadow-lg w-[200]">
+                        <p className=" px-2 py-1 text-gray-800 hover:bg-gray-200">{username}</p>
+                      </div>
+
                     {isOpen && (
-                      <div className="absolute top-10 right-3 mt-2 bg-white shadow-lg w-[200]">
+                      <div className="absolute bottom-[27%] bg-white shadow-lg w-[200]">
                         <Link to='/profile' onClick={toggleMenu} className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Profile</Link>
-                        <button className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Logout</button>
+                        <button onClick={handleLogout} className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Logout</button>
                       </div>
                     )}
                   </div>
