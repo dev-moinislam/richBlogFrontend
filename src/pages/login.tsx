@@ -2,6 +2,8 @@ import LoginPassword from "../components/auth/LoginPassword"
 import {useState} from 'react'
 import { Link } from 'react-router-dom';
 import LoginSMS from "../components/auth/LoginSMS";
+import SocialLogin from "../components/auth/SocialLogin";
+
 
 
 const login = () => {
@@ -9,7 +11,7 @@ const [sms,setSms]=useState(true)
 
   return (
     <>
-    <div className="flex justify-center items-center h-screen bg-gray-100">
+    <div className="flex justify-center items-center h-[90%] py-10 bg-gray-100">
         <div className="bg-white p-8 rounded shadow-md w-96 sm:w-96 ">
           <h2 className="text-2xl font-semibold mb-4">
             Login
@@ -25,7 +27,12 @@ const [sms,setSms]=useState(true)
 
             {/* --------------------------- other signin option -------------------------- */}
             <div className="border-t border-gray-300 pt-4 text-center">
-              <p className="text-sm">Or sign in with</p>
+
+            <SocialLogin/>
+
+              <p className="text-sm mt-2 text-l">Or sign in with</p>
+              
+                  
               <div className="mt-2">
                 {
                     sms ? (

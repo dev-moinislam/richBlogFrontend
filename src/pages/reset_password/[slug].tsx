@@ -17,8 +17,7 @@ const ResetPassword = () => {
 
 
     /* -------------------- updatePassword extract for dispatch ------------------- */
-    const [updatePassword,{data,isLoading,isError,isSuccess,error}]=useUpdatePasswordMutation()
-   console.log(data)
+    const [updatePassword,{isLoading,isError,isSuccess,error}]=useUpdatePasswordMutation()
    
    /* --------------------------- handle input change -------------------------- */
     const handleChange = (e:InputChange) => {
@@ -34,7 +33,7 @@ const ResetPassword = () => {
       if(password !== cf_password){
         toast.error('password does not match')       
       }
-      if(slug){
+      if(slug && (password === cf_password)){
         await updatePassword({access_token:slug,password:password})
       }
 

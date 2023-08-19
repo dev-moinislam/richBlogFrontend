@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useRegisterUserMutation } from '../redux/api/authApi';
 import {toast} from 'react-toastify'
 import LoginLoader from '../components/global/LoginLoder';
+import SocialLogin from '../components/auth/SocialLogin';
 
 const Registration = () => {
     const initialState={username:'',account:'',password:'',cf_password:''}
@@ -54,8 +55,8 @@ const Registration = () => {
   },[isSuccess,isError])
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded shadow-md w-96 sm:w-96 ">
+    <div className="flex justify-center items-center h-[90%] py-10 bg-gray-100">
+      <div className="bg-white p-8 rounded shadow-md w-96 sm:w-96  ">
         <h2 className="text-2xl font-semibold mb-4">Register an Account</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -111,6 +112,11 @@ const Registration = () => {
             }
           </button>
         </form>
+
+        <div className="mt-4 text-center  border-t border-gray-300 pt-4">
+          <SocialLogin/>
+        </div>
+
         <div className="mt-4 text-center">
           <p className="text-sm">
             Already have an account?{' '}
