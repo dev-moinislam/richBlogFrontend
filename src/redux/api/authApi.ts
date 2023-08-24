@@ -67,6 +67,25 @@ googleLogin:builder.mutation({
     }
 }),
 
+userUpdate:builder.mutation({
+    query:(body:{avatar:any,username:string,account:string})=>{
+        return {
+            url:'/api/user/update',
+            method:'post',
+            body
+        }
+    }
+}),
+updateUserPass:builder.mutation({
+    query:(body:{account:string,password:string})=>{
+        return {
+            url:'/api/user/update_password',
+            method:'post',
+            body
+        }
+    }
+}),
+
 
 
 
@@ -75,4 +94,4 @@ googleLogin:builder.mutation({
 })
 
 
-export const { useLoginUserMutation ,useRegisterUserMutation, useVerifyUserMutation,useVerifyUserForForgetPassMutation,useUpdatePasswordMutation,useGoogleLoginMutation } = authApi
+export const { useLoginUserMutation ,useRegisterUserMutation, useVerifyUserMutation,useVerifyUserForForgetPassMutation,useUpdatePasswordMutation,useGoogleLoginMutation,useUserUpdateMutation ,useUpdateUserPassMutation} = authApi

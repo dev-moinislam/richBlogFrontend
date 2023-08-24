@@ -13,6 +13,18 @@ const Header = () => {
     {label:'Register',path:'/register'},
   ]
 
+  const afLoginLinks = [
+    { label: 'Home', path: '/' },
+    { label: 'CreateBlog', path: '/create_blog' }
+  ]
+
+   /* ------------------------------ set User name state ----------------------------- */
+  
+  const {access_token,user}=useAppSelector(selectAuth)
+
+
+  const navLinks = access_token ? afLoginLinks : BfLogRegLink
+
 
 
   /* --------------------------- This handle sidebar -------------------------- */
@@ -45,10 +57,6 @@ const Header = () => {
 
   }
 
-  /* ------------------------------ set User name state ----------------------------- */
-  // {username,avatar,account,type,role}
-  const {username,avatar}=useAppSelector(selectAuth)
-
 
 
   
@@ -77,37 +85,38 @@ const Header = () => {
 
           {/* Add navigation items here */}
           {
-            !username && (
-              BfLogRegLink.map((item,index)=>(
-                <Link key={index} to={item.path} className="text-white hover:text-blue-300 px-4 py-2 rounded-md">
+            
+              navLinks.map((item,index)=>(
+                <Link key={index} to={item.path}  className="text-white hover:text-blue-300 px-4 py-2 rounded-md">
                   {item.label}
                 </Link>
               ))
-            )
+            
           }
 
           {/* -------------------------------- Dropdown start-------------------------------- */}
             {
-              username && (
+              access_token && (
                 <div className="relative inline-block">
                   <button
                     className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none"
                     onClick={toggleDropdown}
                   >
                     {
-                      avatar ? (
-                        <img className='md:w-7 md:h-7 sm:w-5 sm:h-5 rounded-full' src={avatar} alt="" />
+                      user?.avatar ? (
+                        <img className='md:w-7 md:h-7 sm:w-5 sm:h-5 rounded-full' src={user.avatar} alt="" />
 
-                      ) : username 
+                      ) : user?.username 
                     }
+
                   </button>
 
               {isOpen && (
                 <div className="absolute top-15 right-0 mt-2 bg-white shadow-lg w-[200]">
-                  <Link to='/profile' onClick={toggleDropdown} className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Profile</Link>
+                  <Link to={`/profile/${user?._id}`} onClick={toggleDropdown} className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Profile</Link>
                   <button onClick={handleLogout} className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Logout</button>
                 </div>
-              )}
+               )}
             </div>
               )
             }
@@ -118,51 +127,60 @@ const Header = () => {
 
 
  {/* Sidebar */}
- {isMenuOpen && (
+ {isMenuOpen && ( 
         <div className="md:hidden">
           <div className="fixed top-0 right-0 w-[50%] h-screen bg-blue-500 opacity-90 z-[-10]">
-            <div className="flex flex-col justify-center items-center h-full space-y-8">
-              {/* Add sidebar links here */}
-              {/* -------------------------------- menu Item ------------------------------- */}
-              {
-                !username && (
-                  BfLogRegLink.map((item,index)=>(
-                    <Link onClick={toggleMenu} key={index} to={item.path} className="text-white hover:text-blue-300 px-4 py-2 rounded-md">
-                      {item.label}
-                    </Link>
-                  ))
-                )
-              }
+            <div className="flex flex-col justify-center items-center items-center h-full space-y-8">
+          
 
               {/* ------------------------------ dropdown item small device start----------------------------- */}
-                {
-                  username && (
-                    <div className="relative flex justify-center items-center h-screen flex-col">
+                
+                    <div className=" flex justify-center items-center h-screen flex-col">
                     <button
                       className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none"
                       onClick={toggleDropdown}
                     >
                       {
-                        avatar && (
-                          <img className='w-10 h-10 rounded-full' src={avatar} alt="" />
+                        user?.avatar && (
+                          <img className='w-10 h-10 rounded-full' src={user.avatar} alt="" />
 
                         ) 
                       }
-                    </button>
+                        </button>
+  
+                    {
+                      access_token && (
+                        <>
+                            <div className=" top-15  mt-0 bg-white shadow-lg w-[200]">
+                              <p className=" px-2 py-1 text-gray-800 hover:bg-gray-200">{user?.username}</p>
+                            </div>
 
-                      <div className=" top-15  mt-0 bg-white shadow-lg w-[200]">
-                        <p className=" px-2 py-1 text-gray-800 hover:bg-gray-200">{username}</p>
-                      </div>
+                            <div className=" mt-5 bg-white shadow-lg w-[200]">
+                              <Link to={`/profile/${user?._id}`} onClick={toggleMenu} className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Profile</Link>
+                              <button onClick={handleLogout} className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Logout</button>
+                            </div>
+                        </>
+                      )
+                    }
+  
+                  {/* Add sidebar links here */}
+                    {/* -------------------------------- menu Item ------------------------------- */}
 
-                    {isOpen && (
-                      <div className="absolute bottom-[27%] bg-white shadow-lg w-[200]">
-                        <Link to='/profile' onClick={toggleMenu} className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Profile</Link>
-                        <button onClick={handleLogout} className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Logout</button>
-                      </div>
-                    )}
+                  {
+                    
+                    navLinks.map((item,index)=>(
+                      <Link onClick={toggleMenu} key={index} to={item.path} className="text-white hover:text-blue-300 px-4 py-2 rounded-md">
+                        {item.label}
+                      </Link>
+                    ))
+                
+                  }
+              
+              
                   </div>
-                )
-                }
+               
+
+              
               {/* ------------------------------ dropdown item small device end----------------------------- */}
             </div>
           </div>

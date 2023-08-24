@@ -13,6 +13,7 @@ import LoginLoader from '../global/LoginLoder';
     
     const [loginUser,{data,isSuccess,isError,isLoading,error}]=useLoginUserMutation()  //extract Login user from authApi
 
+   
     /* ---------------------------- form input state ---------------------------- */
     const initialState={account:'',password:''}
     const [userLogin,setUserLogin]=useState(initialState)
@@ -42,19 +43,24 @@ import LoginLoader from '../global/LoginLoder';
           toast.error('Please fill up all field')
         }        
     }
+
     
     /* -------------------------------- useeffect and dispatch ------------------------------- */
     useEffect(()=>{
       if(isSuccess){
         toast.success('User successfully Login')
-        dispatch(setUser({account:data.user.account,avatar:data.user.avatar,role:data.user.role,type:data.user.type,username:data.user.username,access_token:data.access_token}))
+        // dispatch(setUser({account:data.user.account,avatar:data.user.avatar,role:data.user.role,type:data.user.type,username:data.user.username,access_token:data.access_token,id:data.user._id}))
+        
+
+            dispatch(setUser({user:data.user,access_token:data.access_token}))
+
         navigate('/')
       }
       
       if(isError){
         toast.error(`${(error as any).data.msg}`)
       }
-    },[isSuccess,isError])
+    },[isSuccess,isError,data])
 
   
     return (

@@ -1,66 +1,48 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store';
+import { IUser } from '../../utils/interface';
 
 export interface AuthState {
-  account: string | null;
-  avatar: string | null;
-  role: number | null;
-  type: string | null;
-  username: string | null;
-  access_token: string | null;
+    access_token: string | null;
+    user:IUser | null
+
 }
 
 const initialState: AuthState = {
-  account: null,
-  avatar: null,
-  role: null,
-  type: null,
-  username: null,
-  access_token:null
+
+    access_token:null,
+    user:null
+
 }
-// {account:string,avatar:string,role:string,type:string,username:string}
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<AuthState>) => {
-     const {account,avatar,role,type,username,access_token}=action.payload
+     const {access_token,user}=action.payload
       localStorage.setItem(
         "userInfo",
         JSON.stringify({
-          account: account,
-          avatar: avatar,
-          role: role,
-          type: type,
-          username: username,
-          access_token:access_token
+          access_token:access_token,
+          user:{...user}
 
         })
       )
 
-      state.account=account
-      state.avatar=avatar
-      state.role=role
-      state.type=type
-      state.username=username
-      state.access_token=access_token
 
+      state.access_token=access_token
+      state.user=user
 
 
 
     },
     logOut:(state) => {
       localStorage.removeItem("userInfo");
-      state.account=null
-      state.avatar=null
-      state.role=null
-      state.type=null
-      state.username=null
       state.access_token=null
+      state.user=null
 
-
- 
      },
 
   },

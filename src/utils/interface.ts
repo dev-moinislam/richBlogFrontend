@@ -11,3 +11,12 @@ export interface IParams{
 }
 
 
+export interface IUser{
+    account?: string | null;
+    avatar?: string | null | undefined;
+    role?: number | null;
+    type?: string | null;
+    username?: string | null;
+    _id?: string | null;
+  }
+

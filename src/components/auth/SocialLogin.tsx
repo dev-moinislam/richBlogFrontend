@@ -11,6 +11,7 @@ import { setUser } from '../../redux/state/authSlice';
 
 
 
+
 const SocialLogin = () => {
 
     const navigate=useNavigate()
@@ -24,7 +25,8 @@ console.log(data)
 useEffect(()=>{
   if(isSuccess){
     toast.success(`${data.msg}`)
-    dispatch(setUser({account:data.user.account,avatar:data.user.avatar,role:data.user.role,type:data.user.type,username:data.user.username,access_token:data.access_token}))
+    // dispatch(setUser({account:data.user.account,avatar:data.user.avatar,role:data.user.role,type:data.user.type,username:data.user.username,access_token:data.access_token,id:data.user._id}))
+    dispatch(setUser({user:data.user,access_token:data.access_token}))
     navigate('/')
   }
   
