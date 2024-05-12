@@ -1,13 +1,13 @@
 import {FaFacebook,FaInstagram,FaLinkedin,FaTwitterSquare} from 'react-icons/fa'
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white py-8 font-text">
+    <footer className="bg-gray-800 text-white py-8 font-text fixed bottom-0 right-0 left-0">
      { /* ------------------------------ About section ----------------------------- */}
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap">
           <div className="w-[50%] px-5 md:w-1/4 mb-8 md:mb-0 font-text2">
             <h2 className="text-xl font-bold mb-4 font-logo md:text-2xl">Rich Blog</h2>
-            <p className="text-sm">This is a multi author blog website.Where all user can post and connet with each other</p>
+            <p className="text-sm">This is a multi author blog website.Where all user can post</p>
           </div>
      { /* ------------------------------ Category section ----------------------------- */}
           <div className="w-[50%] px-5 md:w-1/4 mb-8 md:mb-0 font-text2">

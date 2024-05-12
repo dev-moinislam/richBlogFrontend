@@ -26,7 +26,7 @@ export const authSlice = createSlice({
         "userInfo",
         JSON.stringify({
           access_token:access_token,
-          user:{...user}
+          user:user
 
         })
       )

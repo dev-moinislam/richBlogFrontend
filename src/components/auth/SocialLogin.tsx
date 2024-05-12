@@ -42,7 +42,6 @@ useEffect(()=>{
     {
       !isLoading ? (
             <GoogleLogin
-              
               onSuccess={async (credentialResponse) => {
               const {credential}=credentialResponse 
                 if(credential){

@@ -67,39 +67,41 @@ import LoginLoader from '../global/LoginLoder';
 
           <form onSubmit={handleSubmit}>
             {/* ------------------------------ input account ----------------------------- */}
-            <div className="mb-4">
-              <label className="block text-sm font-medium mb-2">Email or Phone Number</label>
+            <div className="mt-2">
+              <label className="block text-sm font-medium">Email</label>
               <input
                 type="text"
-                className="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:border-blue-500"
-                placeholder="Enter your email or phone"
+                className="w-full border border-gray-300 text-xs p-1 placeholder-gray-400 rounded focus:outline-none focus:border-blue-500"
+                placeholder="Enter your email"
                 value={account}
                 name='account'
                 onChange={handleInputChange}
               />
             </div>
-            <div className="mb-4 relative">
+            <div className="mt-2">
                 {/* ----------------------------- input password ----------------------------- */}
-              <label className="block text-sm font-medium mb-2">Password</label>
-              <input
-                type={showPassword ? 'text' : 'password'}
-                className=" w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:border-blue-500"
-                placeholder="Enter your password"
-                value={password}
-                name='password'
-                onChange={handleInputChange}
-              />
-              {/* -------------------------- password show or not Logic-------------------------- */}
-              <span className="absolute top-12 right-3 transform -translate-y-1/2 cursor-pointer" onClick={togglePasswordVisibility}>
-                {showPassword ? <FaEye/> : <FaEyeSlash/>}
-              </span>
+              <label className="block text-sm font-medium">Password</label>
+              <div className='flex items-center justify-between gap-1'>
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  className=" w-full border border-gray-300 text-xs p-1 placeholder-gray-400 rounded focus:outline-none focus:border-blue-500"
+                  placeholder="Enter your password"
+                  value={password}
+                  name='password'
+                  onChange={handleInputChange}
+                />
+                {/* -------------------------- password show or not Logic-------------------------- */}
+                <span className="ursor-pointer p-1 border border-gray-300 rounded" onClick={togglePasswordVisibility}>
+                  {showPassword ? <FaEye/> : <FaEyeSlash/>}
+                </span>
+              </div>
             </div>
             {/* ------------------------- forget_pass & login btn ------------------------ */}
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex justify-between items-center mt-2">
               <Link to='/forget_password' className="text-blue-500 text-sm">Forgot Password?</Link>
               <button
                 type="submit"
-                className="text-sm text-white bg-blue-500 px-4 py-2 rounded hover:bg-blue-600 focus:outline-none"
+                className="text-sm text-white bg-blue-500 px-4 py-1 rounded hover:bg-blue-600 focus:outline-none"
                 
               >
                 {

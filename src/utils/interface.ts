@@ -14,9 +14,16 @@ export interface IParams{
 export interface IUser{
     account?: string | null;
     avatar?: string | null | undefined;
-    role?: number | null;
+    role?: string | null;
     type?: string | null;
     username?: string | null;
     _id?: string | null;
   }
 
+ export interface IBlogCategory{
+    _id:string,
+    name:string,
+    createdAt:string,
+    updatedAt:string
+  
+  }

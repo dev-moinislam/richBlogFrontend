@@ -42,13 +42,12 @@ const UserInfo: React.FC = () => {
     if(avatar || username){
       if(checkImage(avatar)){
         toast.error(`${checkImage(avatar)}`)
-        isUpdate(false)
-
       }else{
        await userUpdate({avatar:(await ImageUplode(avatar)).url,username:username ? username : user?.username as string,account:user?.account as string})
-        isUpdate(false)
-
       }
+    }else{
+      toast.error(`Please select any field to update`)
+        isUpdate(false)
     }
   };
 
@@ -83,6 +82,7 @@ const UserInfo: React.FC = () => {
             dispatch(setUser({user:{...user,avatar:result.url ? result.url : user?.avatar,username:username ? username : user?.username,account:user?.account as string},access_token:access_token}))
 
             toast.success(`${data.msg}`)
+            setUserProfile(initialState)
 
             isUpdate(false)
 

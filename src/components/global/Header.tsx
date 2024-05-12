@@ -66,7 +66,7 @@ const Header = () => {
 
 
   return (
-    <div className="w-full sticky bg-blue-500 shadow-md">
+    <div className="w-full bg-blue-500 shadow-md fixed top-0 left-0 right-0">
       <div className="flex justify-between items-center px-4 py-3 md:px-8 transition">
         <Link to='/' className="text-white text-lg md:text-3xl sm:text-xl font-semibold font-logo">Rich Blog</Link>
         <div className="">
@@ -129,8 +129,8 @@ const Header = () => {
  {/* Sidebar */}
  {isMenuOpen && ( 
         <div className="md:hidden">
-          <div className="fixed top-0 right-0 w-[50%] h-screen bg-blue-500 opacity-90 z-[-10]">
-            <div className="flex flex-col justify-center items-center items-center h-full space-y-8">
+          <div className="fixed top-0 right-0 w-[50%] h-screen bg-blue-500 opacity-90 -z-10">
+            <div className="flex flex-col justify-center items-center h-full space-y-8">
           
 
               {/* ------------------------------ dropdown item small device start----------------------------- */}

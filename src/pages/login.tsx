@@ -1,60 +1,24 @@
 import LoginPassword from "../components/auth/LoginPassword"
-import {useState} from 'react'
 import { Link } from 'react-router-dom';
-import LoginSMS from "../components/auth/LoginSMS";
 import SocialLogin from "../components/auth/SocialLogin";
 
 
 
 const login = () => {
-const [sms,setSms]=useState(true)
 
   return (
     <>
-    <div className="flex justify-center items-center h-[90%] py-10 bg-gray-100">
+    <div className="flex justify-center items-center h-screen bg-gray-100 px-3 mt-10">
         <div className="bg-white p-8 rounded shadow-md w-96 sm:w-96 ">
-          <h2 className="text-2xl font-semibold mb-4">
-            Login
-            {
-              sms ? ' with Password' : ' with SMS code'
-            }
+          <h2 className="text-xl font-semibold">
+            Login with Password
           </h2>
 
-          {
-            sms ? <LoginPassword/> : <LoginSMS/>
-          }
-          
+          <LoginPassword/> 
 
             {/* --------------------------- other signin option -------------------------- */}
-            <div className="border-t border-gray-300 pt-4 text-center">
-
-            <SocialLogin/>
-
-              <p className="text-sm mt-2 text-l">Or sign in with</p>
-              
-                  
-              <div className="mt-2">
-                {
-                    sms ? (
-                        <button
-                        type="button"
-                        className="inline-block mx-1 text-blue-500 hover:text-blue-600"
-                        onClick={()=>setSms(!sms)}
-                        >
-                        SMS
-                        </button>
-                    ) : (
-                        <button
-                        type="button"
-                        className="inline-block mx-1 text-blue-500 hover:text-blue-600"
-                        onClick={()=>setSms(!sms)}
-                        >
-                        PASSWORD
-                        </button>
-                    )
-                }
-                              
-              </div>
+            <div className="mt-2 text-center  border-t border-gray-300 pt-2">
+               <SocialLogin/>
             </div>
             {/* ------------------------- navigate register page ------------------------- */}
             <div className="mt-4">

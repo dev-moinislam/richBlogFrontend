@@ -4,6 +4,10 @@ import routes from './router/router.tsx'
 import './index.css'
 import { RouterProvider } from 'react-router-dom'
 
+import Modal from 'react-modal';
+
+// Set the app element (usually the root of your app)
+Modal.setAppElement('#root'); 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <RouterProvider router={routes} />
