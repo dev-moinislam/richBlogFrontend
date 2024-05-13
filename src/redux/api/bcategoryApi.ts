@@ -3,8 +3,8 @@ import { API_URL } from '../../utils/apiUrl'
 
 
 // Define a service using a base URL and expected endpoints
-export const bcategoryApi = createApi({
-  reducerPath: 'bcategoryApi',
+export const blogCategoryApi = createApi({
+  reducerPath: 'blogCategoryApi',
   baseQuery: fetchBaseQuery({ 
     baseUrl: API_URL ,
 
@@ -25,15 +25,16 @@ export const bcategoryApi = createApi({
             }
         }
     }),
-updateBlogCategory:builder.mutation({
-    query:(body:{account:string,password:string})=>{
-        return {
-            url:'/api/user/update_password',
-            method:'post',
-            body
+    updateBlogCategory:builder.mutation({
+        query:(body:{role:string | undefined | null,id:string,name:string})=>{
+            const { id } = body;
+            return {
+                url:`/api/category/${id}`,
+                method:'post',
+                body
+            }
         }
-    }
-}),
+    }),
 
 
 
@@ -43,4 +44,4 @@ updateBlogCategory:builder.mutation({
 })
 
 
-export const {useGetCategoryQuery,useCreateCategoryMutation} = bcategoryApi
+export const {useGetCategoryQuery,useCreateCategoryMutation,useUpdateBlogCategoryMutation} = blogCategoryApi

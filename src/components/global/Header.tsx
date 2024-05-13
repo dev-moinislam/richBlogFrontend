@@ -94,6 +94,14 @@ const Header = () => {
             
           }
 
+      {/* Adimn role functionality */}
+      {
+        user?.role === 'admin' && (
+        <Link to='/blog_category' className="text-white hover:text-blue-300 px-4 py-2 rounded-md">
+          Category
+        </Link>)
+      }
+
           {/* -------------------------------- Dropdown start-------------------------------- */}
             {
               access_token && (
@@ -129,7 +137,7 @@ const Header = () => {
  {/* Sidebar */}
  {isMenuOpen && ( 
         <div className="md:hidden">
-          <div className="fixed top-0 right-0 w-[50%] h-screen bg-blue-500 opacity-90 -z-10">
+          <div className="fixed top-0 right-0 w-[50%] h-screen bg-blue-500 -z-10">
             <div className="flex flex-col justify-center items-center h-full space-y-8">
           
 
@@ -175,12 +183,15 @@ const Header = () => {
                     ))
                 
                   }
-              
+                  {/* Adimn role functionality */}
+                  {
+                    user?.role === 'admin' && (
+                    <Link onClick={toggleMenu} to='/blog_category' className="text-white hover:text-blue-300 px-4 py-2 rounded-md">
+                      Category
+                    </Link>)
+                  }
               
                   </div>
-               
-
-              
               {/* ------------------------------ dropdown item small device end----------------------------- */}
             </div>
           </div>

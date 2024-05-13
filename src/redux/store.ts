@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
 import authReducer from '../redux/state/authSlice'
-import bCategoryReducer from '../redux/state/bCategorySlice'
+import blogCategoryReducer from '../redux/state/bCategorySlice'
 import { authApi } from './api/authApi'
-import { bcategoryApi } from './api/bcategoryApi'
+import { blogCategoryApi } from './api/bcategoryApi'
 
 
 
@@ -10,13 +10,13 @@ import { bcategoryApi } from './api/bcategoryApi'
 export const store = configureStore({
   reducer: {
     auth:authReducer,
-    bCategory:bCategoryReducer,
+    blogCategory:blogCategoryReducer,
     [authApi.reducerPath]: authApi.reducer,
-    [bcategoryApi.reducerPath]: bcategoryApi.reducer,
+    [blogCategoryApi.reducerPath]: blogCategoryApi.reducer,
 
 
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(authApi.middleware,bcategoryApi.middleware)
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(authApi.middleware,blogCategoryApi.middleware)
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

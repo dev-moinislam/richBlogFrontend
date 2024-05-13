@@ -9,12 +9,11 @@ interface Category {
 
 const initialState=[] as Category[]
 
-export const bCategorySlice = createSlice({
-  name: 'bCategory',
+export const blogCategorySlice = createSlice({
+  name: 'blogCategory',
   initialState,
   reducers: {
-    setBcategory: (state, action: PayloadAction<Category>) => {
-
+    setBlogCategory: (state, action: PayloadAction<Category>) => {
      state.push(action.payload);
 
 
@@ -24,6 +23,6 @@ export const bCategorySlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const {  setBcategory } = bCategorySlice.actions
-export const selectbCategory = (state: RootState) => state.bCategory
-export default bCategorySlice.reducer
+export const {  setBlogCategory } = blogCategorySlice.actions
+export const selectBlogCategory = (state: RootState) => state.blogCategory
+export default blogCategorySlice.reducer
