@@ -1,36 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { MdCancel } from "react-icons/md";
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { useAppSelector } from '../redux/hooks';
 import { selectAuth } from '../redux/state/authSlice';
 import NotFound from '../components/global/NotFound';
-import { useCreateCategoryMutation, useGetCategoryQuery, useUpdateBlogCategoryMutation } from '../redux/api/bcategoryApi';
+import { useCreateCategoryMutation, useDeleteBlogCategoryMutation, useGetCategoryQuery, useUpdateBlogCategoryMutation } from '../redux/api/bcategoryApi';
 import { IBlogCategory } from '../utils/interface';
 import PreLoder from '../components/global/PreLoder';
 import { toast } from 'react-toastify';
-import { selectBlogCategory, setBlogCategory } from '../redux/state/bCategorySlice';
 
 const CategoryManagement: React.FC = () => {
   const { user } = useAppSelector(selectAuth);
-  const categorySelector = useAppSelector(selectBlogCategory);
-  const dispatch = useAppDispatch();
 
-  const {
-    data: categoriesData,
-    isLoading: isCategoriesLoading,
-    isSuccess: isCategoriesSuccess,
-    isError: isCategoriesError,
-    error: categoriesError,
-    refetch: refetchCategories,
-  } = useGetCategoryQuery({});
+  // use rtk query function
+  const {data: categoriesData,isLoading: isCategoriesLoading,refetch: refetchCategories} = useGetCategoryQuery({});
 
-  const [createCategory, { isLoading: createCategoryIsLoading, isSuccess: createCategoryIsSuccess, isError: createCategoryIsError, error: createCategoryError }] = useCreateCategoryMutation();
+  const [createCategory, { isSuccess: createCategoryIsSuccess, isError: createCategoryIsError, error: createCategoryError }] = useCreateCategoryMutation();
 
   const [updateCategory,{data:updateCategoryData,isSuccess:isCategoriesUpdateSuccess,isError:isUpdateCategoryError,error:updateCategoryError}]=useUpdateBlogCategoryMutation()
 
+  const [deleteCategory,{data:deleteCategoryData,isSuccess:isCategoriesDeleteSuccess,isError:isDeleteCategoryError,error:deleteCategoryError}]=useDeleteBlogCategoryMutation()
+
+  // state declare
   const [newCategory, setNewCategory] = useState<string>('');
   const [isEdit,setIsEdit]=useState<boolean>(false);
   const [categoryId,setCategoryId]=useState<string>('');
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false); 
+  const [categoryIdToDelete, setCategoryIdToDelete] = useState<string>('');
 
   // Add category function
   const handleAddCategory = async () => {
@@ -43,6 +39,7 @@ const CategoryManagement: React.FC = () => {
       console.error(err);
     }
   };
+
 
   // update category function
   const handleUpdateCategory=async()=>{
@@ -60,6 +57,19 @@ const CategoryManagement: React.FC = () => {
     }
   }
 
+
+   // delete category function
+   const handleDeleteCategory = async () => {
+    try {
+      await deleteCategory({ role: user?.role, id: categoryIdToDelete });
+      setShowDeleteModal(false);
+    } catch (err) {
+      console.error(err);
+      setShowDeleteModal(false);
+    }
+  };
+
+
   // handle open for update user
   const handleOpen = (category: IBlogCategory) => {
     setNewCategory(category.name);
@@ -67,16 +77,23 @@ const CategoryManagement: React.FC = () => {
     setCategoryId(category._id);
   };
 
+
   // Handle Cancel Update
  const handleCancelUpdate=()=>{
   setNewCategory('')
   setIsEdit(false)
  }
 
-  // Handle Cancel Update
-//  const handleDltModal=()=>{
 
-//  }
+   // handle delete model
+   const handleOpenDeleteModal = (categoryId: string) => {
+    setShowDeleteModal(true);
+    setCategoryIdToDelete(categoryId);
+  };
+
+ 
+  
+
 
  // useEffect for add new Categories
   useEffect(() => {
@@ -89,6 +106,7 @@ const CategoryManagement: React.FC = () => {
   }, [createCategoryIsSuccess, createCategoryIsError]);
 
 
+
  // useEffect for add updated Categories
   useEffect(() => {
     if (isCategoriesUpdateSuccess) {
@@ -98,6 +116,19 @@ const CategoryManagement: React.FC = () => {
       toast.error(`${(updateCategoryError as any).data.msg}`);
     }
   }, [isCategoriesUpdateSuccess,isUpdateCategoryError]);
+
+
+
+// useEffect for add delete Categories
+ useEffect(() => {
+  if (isCategoriesDeleteSuccess) {
+    toast.success(`${deleteCategoryData.msg}`);
+    refetchCategories(); 
+  } else if (isDeleteCategoryError) {
+    toast.error(`${(deleteCategoryError as any).data.msg}`);
+  }
+}, [isCategoriesDeleteSuccess, isDeleteCategoryError]);
+
 
 
   // user role check
@@ -173,7 +204,10 @@ const CategoryManagement: React.FC = () => {
                           <button onClick={() => handleOpen(category)} className="bg-green-500 hover:bg-green-600 text-white font-semibold py-1 px-2 rounded">
                             <FaEdit />
                           </button>
-                          <button className="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-2 rounded">
+                          <button
+                            className="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-2 rounded"
+                            onClick={() => handleOpenDeleteModal(category._id)}
+                          >
                             <FaTrash />
                           </button>
                         </>
@@ -186,6 +220,30 @@ const CategoryManagement: React.FC = () => {
             )}
           </tbody>
         </table>
+
+        {/* Delete Modal */}
+          {showDeleteModal && (
+          <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
+            <div className="bg-white p-8 rounded-lg">
+              <p className="text-xl mb-4">Are you sure you want to delete this category?</p>
+              <div className="flex justify-end">
+                <button
+                  className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded mr-2"
+                  onClick={handleDeleteCategory}
+                >
+                  Delete
+                </button>
+                <button
+                  className="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded"
+                  onClick={() => setShowDeleteModal(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   );

@@ -2,7 +2,6 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { API_URL } from '../../utils/apiUrl'
 
 
-// Define a service using a base URL and expected endpoints
 export const blogCategoryApi = createApi({
   reducerPath: 'blogCategoryApi',
   baseQuery: fetchBaseQuery({ 
@@ -35,6 +34,16 @@ export const blogCategoryApi = createApi({
             }
         }
     }),
+    deleteBlogCategory:builder.mutation({
+        query:(body:{role:string | undefined | null,id:string})=>{
+            const { id } = body;
+            return {
+                url:`/api/category/${id}`,
+                method:'DELETE',
+                body
+            }
+        }
+    }),
 
 
 
@@ -44,4 +53,4 @@ export const blogCategoryApi = createApi({
 })
 
 
-export const {useGetCategoryQuery,useCreateCategoryMutation,useUpdateBlogCategoryMutation} = blogCategoryApi
+export const {useGetCategoryQuery,useCreateCategoryMutation,useUpdateBlogCategoryMutation,useDeleteBlogCategoryMutation} = blogCategoryApi
