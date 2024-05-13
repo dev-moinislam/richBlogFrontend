@@ -30,7 +30,7 @@ export const blogCategoryApi = createApi({
             const { id } = body;
             return {
                 url:`/api/category/${id}`,
-                method:'post',
+                method:'PUT',
                 body
             }
         }

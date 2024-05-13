@@ -22,7 +22,7 @@ const generatePage = (name: string) => {
 
 const PageRender = () => {
     const {page,slug}:IParams=useParams()
-    console.log(page,slug)
+    // console.log(page,slug)
     
     let name="";
     if(page){
