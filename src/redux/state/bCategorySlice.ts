@@ -1,22 +1,34 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store';
+import { IBlogCategory } from '../../utils/interface';
 
-interface Category {
-    _id?: string;
-    name: string;
-  }
+export interface categoriesState {
+  categories:IBlogCategory | null
 
-const initialState=[] as Category[]
+}
+
+const initialState: categoriesState = {
+  categories:null
+}
+
+// const initialState : IBlogCategory[] = []
 
 export const blogCategorySlice = createSlice({
   name: 'blogCategory',
   initialState,
   reducers: {
-    setBlogCategory: (state, action: PayloadAction<Category>) => {
-     state.push(action.payload);
+    setBlogCategory: (state, action: PayloadAction<IBlogCategory>) => {
+      localStorage.setItem(
+        "catInfo",
+        JSON.stringify({
+          categories:action.payload
 
+        })
+      )
+      state.categories=action.payload
 
+        
     },
 
   },

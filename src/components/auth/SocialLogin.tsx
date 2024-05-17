@@ -37,7 +37,7 @@ useEffect(()=>{
 
   
 	return (
-		<div className="flex justify-center">	
+		<div className="flex justify-center -z-40">	
 
     {
       !isLoading ? (

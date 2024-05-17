@@ -40,6 +40,7 @@ export const authSlice = createSlice({
     },
     logOut:(state) => {
       localStorage.removeItem("userInfo");
+      localStorage.removeItem("catInfo");
       state.access_token=null
       state.user=null
 

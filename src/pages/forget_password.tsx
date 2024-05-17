@@ -12,7 +12,6 @@ const ForgotPassword = () => {
 
 
     const [verifyUserForForgetPass,{data,isSuccess,isError,isLoading,error}]=useVerifyUserForForgetPassMutation()  //extract email from authApi
-     console.log(data)
 
      const handleAccountChange=(e:InputChange)=>{
         const {name,value}=e.target
