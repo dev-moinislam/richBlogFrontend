@@ -43,9 +43,9 @@ const CardLeft: React.FC<IProps> = ({ blog }) => {
         }
 
           </div>
-          <p className="text-xs w-fit bg-Yellow font-bold rounded-md py-1">Category</p>
+          <p className="text-xs w-fit bg-Yellow font-bold border rounded-md px-2 py-1 ">Category</p>
   
-          <p className="text-xs">Published 10 Feb 2024</p>
+          <p className="text-xs">{new Date(blog.createdAt).toLocaleString()}</p>
           {
             blog.title ? (
               <h2 className="text-xl font-bold w-72 line-clamp-2">{blog.title}</h2>
@@ -60,10 +60,7 @@ const CardLeft: React.FC<IProps> = ({ blog }) => {
               <p className="text-gray-300 text-sm w-72 line-clamp-3">Write your blog description ... </p>
             )
           }
-          <div className="flex items-center pt-5 gap-4">
-            {/* <img className="w-6 h-6" src="img/image-avatar.webp" alt="avatar" />
-            <p className="font-bold text-sm">Greg Hooper</p> */}
-          </div>
+          <div className="flex items-center pt-5 gap-4"></div>
         </section>
         <div className="h-full top-2 left-2 w-full absolute z-10 rounded-2xl bg-black"></div>
       </main>

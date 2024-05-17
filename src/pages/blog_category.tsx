@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { MdCancel } from "react-icons/md";
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { setBlogCategory } from '../redux/state/bCategorySlice';
+import { useAppSelector } from '../redux/hooks';
 import { selectAuth } from '../redux/state/authSlice';
 import NotFound from '../components/global/NotFound';
 import { useCreateCategoryMutation, useDeleteBlogCategoryMutation, useGetCategoryQuery, useUpdateBlogCategoryMutation } from '../redux/api/bcategoryApi';
@@ -12,10 +11,9 @@ import { toast } from 'react-toastify';
 
 const CategoryManagement: React.FC = () => {
   const { user } = useAppSelector(selectAuth);
-  const dispatch=useAppDispatch()
 
   // use rtk query function
-  const {data: categoriesData,isLoading: isCategoriesLoading,isSuccess:isCategorySuccess,refetch: refetchCategories} = useGetCategoryQuery({});
+  const {data: categoriesData,isLoading: isCategoriesLoading,refetch: refetchCategories} = useGetCategoryQuery({});
 
   const [createCategory, { isSuccess: createCategoryIsSuccess, isError: createCategoryIsError, error: createCategoryError }] = useCreateCategoryMutation();
 
@@ -131,14 +129,6 @@ const CategoryManagement: React.FC = () => {
     toast.error(`${(deleteCategoryError as any).data.msg}`);
   }
 }, [isCategoriesDeleteSuccess, isDeleteCategoryError]);
-
-
-// useEffect(() => {
-//   if (isCategorySuccess && categoriesData) {
-//     dispatch(setBlogCategory(categoriesData.categories));
-//   }
-// }, [isCategorySuccess]);
-
 
 
   // user role check

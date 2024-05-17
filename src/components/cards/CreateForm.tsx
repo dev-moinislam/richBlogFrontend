@@ -1,7 +1,6 @@
 import React from 'react';
 import { IBlog, IBlogCategory, InputChange } from '../../utils/interface';
-import { useAppSelector } from '../../redux/hooks';
-import { selectBlogCategory } from '../../redux/state/bCategorySlice';
+import { useGetCategoryQuery } from '../../redux/api/bcategoryApi';
 
 
 interface IProps {
@@ -10,14 +9,17 @@ interface IProps {
 }
 
 const CreateForm: React.FC<IProps> = ({ blog, setBlog }) => {
-    const {categories}=useAppSelector(selectBlogCategory)
-    console.log("moin",categories)
+    
+  // use rtk query function
+    const {data} = useGetCategoryQuery({});
 
   const handleChangeInput = (e: InputChange) => {
     const { value, name } = e.target;
     setBlog({ ...blog, [name]: value });
+    console.log(name,value)
   };
 
+  
   const handleChangeThumbnail = (e: InputChange) => {
     const target = e.target as HTMLInputElement;
     const files = target.files;
@@ -26,6 +28,7 @@ const CreateForm: React.FC<IProps> = ({ blog, setBlog }) => {
       setBlog({ ...blog, thumbnail: file });
     }
   };
+
 
   return (
     <div className='flex justify-center items-center'>
@@ -80,7 +83,7 @@ const CreateForm: React.FC<IProps> = ({ blog, setBlog }) => {
           onChange={handleChangeInput}
         >
           <option value="">Choose a category</option>
-          {categories && categories.map((category:IBlogCategory) => (
+          {data && data.categories.map((category:IBlogCategory) => (
             <option key={category._id} value={category._id}>
               {category.name}
             </option>
